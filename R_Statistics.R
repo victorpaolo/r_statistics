@@ -34,4 +34,23 @@ head(airquality)
 tail(airquality)
 summary(airquality)
 str(airquality)
-table(airquality) ##better with a vector or a column
+table(airquality$Month) ##better with a vector or a column
+
+## Process for studying dataset
+data("Indometh")
+summary(Indometh)
+### 1 Check frequencies
+#### Simple way
+table(Indometh$spray)
+
+#### Hard way
+InsectSprays %>%
+  group_by(spray) %>% 
+  summarise(frec_abs = n()) %>% 
+  mutate(
+    frec_rel = frec_abs / sum(frec_abs) * 100,
+    frec_acc = cumsum(frec_abs),
+    frec_rel_acc = cumsum(frec_rel)
+  )
+
+plot(InsectSprays$spray)
